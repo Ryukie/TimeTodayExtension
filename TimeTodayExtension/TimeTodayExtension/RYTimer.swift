@@ -49,7 +49,7 @@ class RYTimer: NSObject {
         timerTickHandler = updateTick
         timerStopHandler = stopHandler
         isRunning = true
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector:"countTick", userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector:"countTick", userInfo: nil, repeats: true)//通过此方法创建的直接放在当前运行循环中
         return(true,nil)
     }
     
