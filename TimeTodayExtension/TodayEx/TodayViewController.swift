@@ -15,23 +15,24 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
-        let userDefaults = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
-        let leftTimeWhenQuit = userDefaults!.integerForKey(keyLeftTime)
-        let quitDate = userDefaults!.integerForKey(keyQuitDate)
-        
-        let passedTimeFromQuit = NSDate().timeIntervalSinceDate(NSDate(timeIntervalSince1970: NSTimeInterval(quitDate)))
-        let leftTime = leftTimeWhenQuit - Int(passedTimeFromQuit)
-        
-//        lb_time.text = "\(leftTime)"
-        if (leftTime > 0) {
-            timer = RYTimer(timeInterval: NSTimeInterval(leftTime))
-            timer.start({
-                [weak self] leftTick in self!.updateLabel()
-                }, stopHandler: {
-                    [weak self] finished in self!.showOpenAppButton()
-                })
-        } else {
-            showOpenAppButton()
+        if  let userDefaults = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults") {
+            let leftTimeWhenQuit = userDefaults.integerForKey(keyLeftTime)
+            let quitDate = userDefaults.integerForKey(keyQuitDate)
+            
+            let passedTimeFromQuit = NSDate().timeIntervalSinceDate(NSDate(timeIntervalSince1970: NSTimeInterval(quitDate)))
+            let leftTime = leftTimeWhenQuit - Int(passedTimeFromQuit)
+            
+            //        lb_time.text = "\(leftTime)"
+            if (leftTime > 0) {
+                timer = RYTimer(timeInterval: NSTimeInterval(leftTime))
+                timer.start({
+                    [weak self] leftTick in self!.updateLabel()
+                    }, stopHandler: {
+                        [weak self] finished in self!.showOpenAppButton()
+                    })
+            } else {
+                showOpenAppButton()
+            }
         }
         
     }
@@ -60,11 +61,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
-
+        
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-
+        
         completionHandler(NCUpdateResult.NewData)
     }
     

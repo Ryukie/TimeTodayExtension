@@ -33,7 +33,7 @@ public class RYTimer: NSObject {
             return leftTime.toString()
         }
     }
-
+    
     private var timerTickHandler: (NSTimeInterval -> ())? = nil
     private var timerStopHandler: (Bool ->())? = nil
     private var timer: NSTimer!

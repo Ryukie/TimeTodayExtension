@@ -12,7 +12,7 @@ import RYTimerKit
 let defaultTimeInterval: NSTimeInterval = 10
 let taskDidFinishedInWidgetNotification: String = "com.ryukie.timerToady.TaskDidFinishedInWidgetNotification"
 class ViewController: UIViewController {
-
+    
     var timer : RYTimer?
     
     override func viewDidLoad() {
@@ -20,12 +20,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive", name: UIApplicationWillResignActiveNotification, object: nil)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     @IBAction func bt_startClick(sender: AnyObject) {
         if timer == nil {
             timer = RYTimer(timeInterval: defaultTimeInterval)
@@ -35,15 +35,15 @@ class ViewController: UIViewController {
             }, stopHandler: { [weak self] (finished) -> Void in
                 self!.showFinishAlert(finished)
                 self!.timer = nil
-        })
+            })
         //闭包 另一种写法
-//        let (started, error) = timer!.start({
-//            [weak self] leftTick in self!.updateLabel()
-//            }, stopHandler: {
-//                [weak self] finished in
-//                self!.showFinishAlert(finished)
-//                self!.timer = nil
-//            })
+        //        let (started, error) = timer!.start({
+        //            [weak self] leftTick in self!.updateLabel()
+        //            }, stopHandler: {
+        //                [weak self] finished in
+        //                self!.showFinishAlert(finished)
+        //                self!.timer = nil
+        //            })
         
         if started {
             updateLabel()
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
     
     
-
+    
     @IBOutlet weak var lb_leftTime: UILabel!
 }
 // MARK: - 应用本体和插件 通过 AppGroup 共享数据
@@ -99,16 +99,18 @@ extension ViewController {
         但是这里我们需要这两个数据能够被扩展访问到的话，
         我们必须使用在 App Groups 中定义的名字来使用 NSUserDefaults。
         */
-        let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
-        userDefault!.setInteger(Int(timer!.leftTime), forKey: keyLeftTime)
-        userDefault!.setInteger(Int(NSDate().timeIntervalSince1970), forKey: keyQuitDate)
-        
-        userDefault!.synchronize()
+        if let userDefault = NSUserDefaults(suiteName:  "group.TimeTodayExtensionSharedDefaults") {
+            userDefault.setInteger(Int(timer!.leftTime), forKey: keyLeftTime)
+            userDefault.setInteger(Int(NSDate().timeIntervalSince1970), forKey: keyQuitDate)
+            
+            userDefault.synchronize()
+        }
     }
     private func clearDefaults() {
-        let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
-        userDefault!.removeObjectForKey(keyLeftTime)
-        userDefault!.removeObjectForKey(keyQuitDate)
-        userDefault!.synchronize()
+        if  let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults") {
+            userDefault.removeObjectForKey(keyLeftTime)
+            userDefault.removeObjectForKey(keyQuitDate)
+            userDefault.synchronize()
+        }
     }
 }
