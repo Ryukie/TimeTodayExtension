@@ -7,20 +7,20 @@
 //
 
 import UIKit
-let keyLeftTime = "com.ryukie.simpleTimer.lefttime"
-let keyQuitDate = "com.ryukie.simpleTimer.quitdate"
-let timerErrorDomain = "SimpleTimerError"
+public let keyLeftTime = "com.ryukie.simpleTimer.lefttime"
+public let keyQuitDate = "com.ryukie.simpleTimer.quitdate"
+public let timerErrorDomain = "SimpleTimerError"
 
-enum SimperTimerError: Int {
+public enum SimperTimerError: Int {
     case AlreadyRunning = 1001
     case NegativeLeftTime = 1002
     case NotRunning = 1003
 }
 
-class RYTimer: NSObject {
-    var isRunning : Bool = false
+public class RYTimer: NSObject {
+    public var isRunning : Bool = false
     
-    var leftTime : NSTimeInterval {
+    public var leftTime : NSTimeInterval {
         didSet {
             if leftTime < 0 {
                 leftTime = 0
@@ -28,7 +28,7 @@ class RYTimer: NSObject {
         }
     }
     // get
-    var leftTimeString : String {
+    public var leftTimeString : String {
         get {
             return leftTime.toString()
         }
@@ -38,7 +38,7 @@ class RYTimer: NSObject {
     private var timerStopHandler: (Bool ->())? = nil
     private var timer: NSTimer!
     
-    func start(updateTick: (NSTimeInterval -> Void)?, stopHandler: (Bool -> Void)?) -> (start: Bool, error: NSError?) {
+    public func start(updateTick: (NSTimeInterval -> Void)?, stopHandler: (Bool -> Void)?) -> (start: Bool, error: NSError?) {
         
         if isRunning {
             return (false,NSError(domain: timerErrorDomain, code: SimperTimerError.NotRunning.rawValue, userInfo: nil))
@@ -53,7 +53,7 @@ class RYTimer: NSObject {
         return(true,nil)
     }
     
-    func stop () -> (stopped:Bool,error:NSError?) {
+    public func stop () -> (stopped:Bool,error:NSError?) {
         if !isRunning {
             return (false, NSError(domain: timerErrorDomain, code: SimperTimerError.NotRunning.rawValue, userInfo:nil))
         }
@@ -71,7 +71,7 @@ class RYTimer: NSObject {
         return (true,nil)
     }
     
-    init(timeInterval:NSTimeInterval) {
+    public init(timeInterval:NSTimeInterval) {
         leftTime = timeInterval
     }
     

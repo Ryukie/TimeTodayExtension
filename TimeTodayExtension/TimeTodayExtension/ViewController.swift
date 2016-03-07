@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import RYTimerKit
 
-let defaultTimeInterval: NSTimeInterval = 60
-
+let defaultTimeInterval: NSTimeInterval = 10
+let taskDidFinishedInWidgetNotification: String = "com.ryukie.timerToady.TaskDidFinishedInWidgetNotification"
 class ViewController: UIViewController {
 
     var timer : RYTimer?
