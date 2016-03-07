@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+let keyLeftTime = "com.ryukie.simpleTimer.lefttime"
+let keyQuitDate = "com.ryukie.simpleTimer.quitdate"
 let timerErrorDomain = "SimpleTimerError"
 
 enum SimperTimerError: Int {

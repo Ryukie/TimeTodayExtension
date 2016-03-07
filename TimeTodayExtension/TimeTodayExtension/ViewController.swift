@@ -14,10 +14,10 @@ class ViewController: UIViewController {
 
     var timer : RYTimer?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive", name: UIApplicationWillResignActiveNotification, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,7 +71,37 @@ class ViewController: UIViewController {
         
         presentViewController(ac, animated: true, completion: nil)
     }
+    
+    
 
     @IBOutlet weak var lb_leftTime: UILabel!
 }
-
+// MARK: - 应用本体和插件 通过 AppGroup 共享数据
+extension ViewController {
+    @objc private func applicationWillResignActive() {
+        print("app will resign active")
+        
+        if timer == nil {
+            clearDefaults()
+        } else {
+            if timer!.isRunning {
+                saveDefaults()
+            } else {
+                clearDefaults()
+            }
+        }
+    }
+    private func saveDefaults() {
+        let userDefault = NSUserDefaults(suiteName: "group.simpleTimerSharedDefaults")
+        userDefault!.setInteger(Int(timer!.leftTime), forKey: keyLeftTime)
+        userDefault!.setInteger(Int(NSDate().timeIntervalSince1970), forKey: keyQuitDate)
+        
+        userDefault!.synchronize()
+    }
+    private func clearDefaults() {
+        let userDefault = NSUserDefaults(suiteName: "group.simpleTimerSharedDefaults")
+        userDefault!.removeObjectForKey(keyLeftTime)
+        userDefault!.removeObjectForKey(keyQuitDate)
+        userDefault!.synchronize()
+    }
+}
