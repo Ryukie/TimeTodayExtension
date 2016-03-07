@@ -8,7 +8,7 @@
 
 import UIKit
 
-let defaultTimeInterval: NSTimeInterval = 10
+let defaultTimeInterval: NSTimeInterval = 60
 
 class ViewController: UIViewController {
 
@@ -92,14 +92,20 @@ extension ViewController {
         }
     }
     private func saveDefaults() {
-        let userDefault = NSUserDefaults(suiteName: "group.simpleTimerSharedDefaults")
+        /*
+        这里注意，可能一般我们在使用
+        NSUserDefaults 时更多地是使用
+        standardUserDefaults，但是这里我们需要这两个数据能够被扩展访问到的话，我们必须使用在 App Groups 中定义的名字来使用
+        NSUserDefaults。
+        */
+        let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
         userDefault!.setInteger(Int(timer!.leftTime), forKey: keyLeftTime)
         userDefault!.setInteger(Int(NSDate().timeIntervalSince1970), forKey: keyQuitDate)
         
         userDefault!.synchronize()
     }
     private func clearDefaults() {
-        let userDefault = NSUserDefaults(suiteName: "group.simpleTimerSharedDefaults")
+        let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
         userDefault!.removeObjectForKey(keyLeftTime)
         userDefault!.removeObjectForKey(keyQuitDate)
         userDefault!.synchronize()

@@ -14,6 +14,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
+        let userDefaults = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults")
+        let leftTimeWhenQuit = userDefaults!.integerForKey("com.ryukie.simpleTimer.lefttime")
+        let quitDate = userDefaults!.integerForKey("com.ryukie.simpleTimer.quitdate")
+        
+        let passedTimeFromQuit = NSDate().timeIntervalSinceDate(NSDate(timeIntervalSince1970: NSTimeInterval(quitDate)))
+        let leftTime = leftTimeWhenQuit - Int(passedTimeFromQuit)
+        
+        lb_time.text = "\(leftTime)"
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,4 +39,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.NewData)
     }
     
+    
+    
+    @IBOutlet weak var lb_time: UILabel!
 }
