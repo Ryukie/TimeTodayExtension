@@ -3,7 +3,7 @@
 //  TimeTodayExtension
 //
 //  Created by 王荣庆 on 16/3/7.
-//  Copyright © 2016年 Ryukie. All rights reserved.
+//  Copyright © 2016年 Ryukie. rAll rights reserved.
 //
 
 import UIKit

@@ -9,6 +9,7 @@
 import UIKit
 public let keyLeftTime = "com.ryukie.simpleTimer.lefttime"
 public let keyQuitDate = "com.ryukie.simpleTimer.quitdate"
+public let keyImage = "com.ryukie.simpleTimer.image"
 public let timerErrorDomain = "SimpleTimerError"
 
 public enum SimperTimerError: Int {

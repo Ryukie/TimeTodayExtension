@@ -12,17 +12,17 @@ import RYTimerKit
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     var timer : RYTimer!
+    var image : NSData?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
         if  let userDefaults = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults") {
             let leftTimeWhenQuit = userDefaults.integerForKey(keyLeftTime)
             let quitDate = userDefaults.integerForKey(keyQuitDate)
-            
+            image = userDefaults.objectForKey(keyImage) as? NSData
             let passedTimeFromQuit = NSDate().timeIntervalSinceDate(NSDate(timeIntervalSince1970: NSTimeInterval(quitDate)))
             let leftTime = leftTimeWhenQuit - Int(passedTimeFromQuit)
             
-            //        lb_time.text = "\(leftTime)"
             if (leftTime > 0) {
                 timer = RYTimer(timeInterval: NSTimeInterval(leftTime))
                 timer.start({
@@ -44,9 +44,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     private func showOpenAppButton() {
         lb_time.text = "Finished"
         preferredContentSize = CGSizeMake(0, 100)
-        let button = UIButton(frame: CGRectMake(0, 50, 50, 63))
+        let button = UIButton(frame: CGRectMake(0, 50, 50, 50))
         button.setTitle("Open", forState: UIControlState.Normal)
         button.addTarget(self, action: "buttonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+//        button.setBackgroundImage(UIImage(named: "02"), forState: .Normal)
+        button.setBackgroundImage(UIImage(data: image!), forState: .Normal)
+        button.backgroundColor = UIColor.redColor()
         view.addSubview(button)
     }
     

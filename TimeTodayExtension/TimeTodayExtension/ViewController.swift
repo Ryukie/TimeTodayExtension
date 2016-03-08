@@ -21,11 +21,6 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive", name: UIApplicationWillResignActiveNotification, object: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func bt_startClick(sender: AnyObject) {
         if timer == nil {
             timer = RYTimer(timeInterval: defaultTimeInterval)
@@ -102,7 +97,8 @@ extension ViewController {
         if let userDefault = NSUserDefaults(suiteName:  "group.TimeTodayExtensionSharedDefaults") {
             userDefault.setInteger(Int(timer!.leftTime), forKey: keyLeftTime)
             userDefault.setInteger(Int(NSDate().timeIntervalSince1970), forKey: keyQuitDate)
-            
+            let imgData = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("02.jpg", ofType: nil)!)
+            userDefault.setObject(imgData, forKey: keyImage)
             userDefault.synchronize()
         }
     }
@@ -110,6 +106,7 @@ extension ViewController {
         if  let userDefault = NSUserDefaults(suiteName: "group.TimeTodayExtensionSharedDefaults") {
             userDefault.removeObjectForKey(keyLeftTime)
             userDefault.removeObjectForKey(keyQuitDate)
+            userDefault.removeObjectForKey(keyImage)
             userDefault.synchronize()
         }
     }
